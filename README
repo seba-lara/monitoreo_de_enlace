@@ -1,0 +1,13 @@
+Herramienta para monitorear un enlace entre 2 servidores linux. 
+Cuenta con un archivo .bat para su instalacion desde windows y un archivo con extencion .sh para linux 
+Para otros fines, se deben modificar las direcciones en los archivos 'install', y los almacenados en el directorio 'config'
+
+Desde windows
+1 .- Presione el archivo "install_windows.bat" 
+
+Desde linux
+1.- Utilice el comando "./install_linux.sh"
+
+* Los archivos de log se almacenan en '/var/log/monitoreo'
+* Los script de consulta se almacenan en '/root/monitoreo'
+* El archivo Crontab se encuentra en '/var/spool/cron/root'
