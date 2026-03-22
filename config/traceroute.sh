@@ -5,7 +5,7 @@ truncate -s 10M /var/log/monitoreo/traceroute.log
 #INT=$(ip -o -br a | grep 192 | awk 'NR == 1 {print $1}')
 
 #Host de destino
-TGT=(10.75.40.166)
+TGT=(<IP_DESTINO>)
 
 
 TR=$(traceroute -m 10 $TGT 2>&1)

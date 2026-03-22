@@ -1,1 +1,1 @@
-scp -i "%userprofile%\.ssh\si_key" -o "StrictHostKeyChecking=no" -r root@10.75.10.166:/var/log/monitoreo .
+scp -i "%userprofile%\.ssh\si_key" -o "StrictHostKeyChecking=no" -r root@<IP_DESTINO>:/var/log/monitoreo .

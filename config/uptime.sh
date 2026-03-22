@@ -2,7 +2,7 @@
 truncate -s 10M /var/log/monitoreo/uptime.log
 #Host a pinguear
 #TARGET="si-primary"
-TARGET=(10.75.40.166)
+TARGET=(<IP_DESTINO>) #ingresar una ip valida dentro del parentesis
 
 # archivo log
 LOG="/var/log/monitoreo/uptime.log"

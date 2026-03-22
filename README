@@ -1,13 +1,78 @@
-Herramienta para monitorear un enlace entre 2 servidores linux. 
-Cuenta con un archivo .bat para su instalacion desde windows y un archivo con extencion .sh para linux 
-Para otros fines, se deben modificar las direcciones en los archivos 'install', y los almacenados en el directorio 'config'
+# Network Link Monitor
 
-Desde windows
-1 .- Presione el archivo "install_windows.bat" 
+Suite de scripts Bash para monitoreo continuo de un enlace de red entre dos 
+servidores Linux. Registra latencia, uptime y trazado de ruta en logs rotativos,
+con instalación remota desde Windows o Linux vía SSH.
 
-Desde linux
-1.- Utilice el comando "./install_linux.sh"
+## ¿Qué hace?
 
-* Los archivos de log se almacenan en '/var/log/monitoreo'
-* Los script de consulta se almacenan en '/root/monitoreo'
-* El archivo Crontab se encuentra en '/var/spool/cron/root'
+- **Latencia:** ejecuta ping cada minuto y registra métricas de red (min/avg/max/mdev)
+- **Uptime:** verifica disponibilidad del host; ante falla, dispara traceroute automáticamente
+- **Traceroute:** registra la ruta completa al destino (máx. 10 saltos) con timestamp
+- **Rotación de logs:** límite de 10MB por archivo, evita llenado de disco
+- **Instalación remota:** desde Windows (.bat) o Linux (.sh) vía SSH + SCP
+
+## Stack
+
+- Bash
+- Cron
+- SSH / SCP
+- RPM (traceroute 2.0.22)
+- CentOS / RHEL 7
+
+## Instalación
+
+### Requisitos previos
+- Acceso SSH con llave privada al servidor destino
+- Servidor destino: CentOS/RHEL 7
+
+### Desde Windows
+```bat
+install_windows.bat
+```
+
+### Desde Linux
+```bash
+chmod +x install_linux.sh
+./install_linux.sh
+```
+
+El instalador despliega los scripts en el servidor remoto, configura cron 
+y deja accesos directos en el escritorio para extraer logs y desinstalar.
+
+## Configuración
+
+Antes de instalar, edita las IPs en los archivos dentro de `config/`:
+
+| Archivo | Variable a cambiar |
+|---|---|
+| `latency.sh` | IP del host destino |
+| `traceroute.sh` | `TGT` |
+| `uptime.sh` | `TARGET` |
+| `install_windows.bat` / `install_linux.sh` | IP del servidor remoto |
+
+## Estructura de logs
+
+| Ruta | Contenido |
+|---|---|
+| `/var/log/monitoreo/latency.log` | Métricas de latencia (ping) |
+| `/var/log/monitoreo/uptime.log` | Eventos de caída y recuperación |
+| `/var/log/monitoreo/traceroute.log` | Trazados de ruta con timestamp |
+
+## Extracción de logs desde Windows
+```bat
+Extraer_datos.bat
+```
+Copia los logs del servidor remoto al directorio local vía SCP.
+
+## Desinstalación
+
+**Windows:**
+```bat
+Desinstalar.bat
+```
+**Linux (en el servidor):**
+```bash
+/root/monitoreo/uninstall.sh
+```
+Elimina scripts, desinstala traceroute y respalda los logs en `/root/log_monitoreo.BAK`.
